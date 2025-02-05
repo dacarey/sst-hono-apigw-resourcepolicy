@@ -1,6 +1,6 @@
 # Reference API Gateway to test Custom Resource Policy
 
-This project demonstrates how to configure an API Gateway using SST with a custom resource policy that only applies when allowed AWS account IDs are provided. It also shows how to run the API in both production and development modes, troubleshoot authorization issues, and test access using tools that support AWS profiles.
+This project demonstrates how to configure an API Gateway using [SST](https://sst.dev/) with a custom resource policy that only applies when allowed AWS account IDs are provided. It also shows how to run the API in both production and development modes, troubleshoot authorization issues, and test access using tools that support AWS profiles.
 
 ## Table of Contents
 
