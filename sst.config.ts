@@ -23,7 +23,7 @@ interface ResourcePolicy {
 export default $config({
   app(input) {
     return {
-      name: "aws-api-1",
+      name: "sst-hono-apigw-resourcepolicy",
       removal: input.stage === "production" ? "retain" : "remove",
       protect: input.stage === "production",
       home: "aws",
