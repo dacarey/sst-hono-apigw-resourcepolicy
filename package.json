@@ -10,12 +10,12 @@
   "devDependencies": {
     "@types/aws-lambda": "8.10.147",
     "@types/node": "^22.13.1",
-    "esbuild": "^0.21.4",
-    "npm-run-all2": "^6.2.0"
+    "esbuild": "^0.25.0",
+    "npm-run-all2": "^6.2.6"
   },
   "dependencies": {
-    "@pulumi/aws": "^6.67.0",
-    "hono": "^4.6.20",
-    "sst": "3.7.9"
+    "@pulumi/aws": "^6.68.0",
+    "hono": "^4.7.0",
+    "sst": "^3.8.3"
   }
 }

@@ -33,6 +33,11 @@ export default $config({
     };
   },
   async run() {
+    new sst.aws.Function("Hono", {
+      url: true,
+      handler: "src/index.handler",
+    });
+
     // Read allowed accounts from environment variables.
     // Either use ALLOWED_ACCOUNTS_FILE (a JSON file with an array) or ALLOWED_ACCOUNTS (a comma-separated string).
     let allowedAccounts: string[] = [];
@@ -83,6 +88,7 @@ export default $config({
         ): undefined => {
           if (policy) {
             args.policy = JSON.stringify(policy);
+            console.log(`Resource policy "${args.policy}" added to API "${name}".`);
           }
           // Explicitly return undefined to match the expected signature.
           return undefined;
