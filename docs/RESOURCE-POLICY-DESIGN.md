@@ -107,7 +107,7 @@ callApiGateway();
 - **No Round-Trip to STS for Each Request:**  
   Contrary to some oversimplified explanations, API Gateway does not make an explicit call to AWS STS for every request. Instead, it relies on local signature verification to ensure the request’s authenticity.
 
-![Resource Policy Verification](uml\resouce-policy-verification.png)
+![Resource Policy Verification](uml/resouce-policy-verification.png)
 
 ### Comparing a Signed Request to an Ordinary API Call (e.g., via Postman)
 - **Signed Request (e.g., from Lambda or awscurl):**  
