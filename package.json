@@ -16,6 +16,7 @@
   "dependencies": {
     "@pulumi/aws": "^6.68.0",
     "hono": "^4.7.0",
-    "sst": "^3.8.3"
+    "sst": "^3.8.5",
+    "@aws-sdk/client-sts": "^3.744.0"
   }
 }

@@ -33,9 +33,14 @@ export default $config({
     };
   },
   async run() {
-    new sst.aws.Function("Hono", {
+    new sst.aws.Function("HonoVanillaLambda", {
       url: true,
       handler: "src/index.handler",
+    });
+    // New DebugLambda function for troubleshooting
+    new sst.aws.Function("HonoDebugLambda", {
+      url: true,
+      handler: "src/debug.handler",
     });
 
     // Read allowed accounts from environment variables.

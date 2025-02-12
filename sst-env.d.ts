@@ -5,7 +5,12 @@
 
 declare module "sst" {
   export interface Resource {
-    "Hono": {
+    "HonoDebugLambda": {
+      "name": string
+      "type": "sst.aws.Function"
+      "url": string
+    }
+    "HonoVanillaLambda": {
       "name": string
       "type": "sst.aws.Function"
       "url": string
