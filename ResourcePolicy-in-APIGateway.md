@@ -1,16 +1,21 @@
 # Technical Note: Restricting API Gateway Access Using `aws:PrincipalOrgID` in a Resource Policy
 
 ## 1. Solution Overview
-This guide explains how to enhance security in AWS API Gateway by using a resource policy to restrict access to AWS accounts within an organization while retaining a custom Lambda authorizer.
+To enhance the security of our AWS API Gateway while maintaining our existing custom Lambda authorizer, we are introducing an additional layer of access control using an AWS API Gateway resource policy. This policy ensures that only AWS accounts within our AWS Organization can invoke the API.
 
-The `aws:PrincipalOrgID` condition ensures that only requests from accounts in the AWS Organization can invoke the API. Unlike `aws:SourceAccount` and `aws:SourceArn`, which apply to service-to-service requests, `aws:PrincipalOrgID` works for direct API calls via **curl**, **awscurl**, or **Lambda**.
+We prefer to use `aws:PrincipalOrgID` because it automatically validates that the requester belongs to our AWS Organization. In contrast, conditions like `aws:SourceAccount` and `aws:SourceArn` are designed for service-to-service requests and are not included in direct API calls via curl, awscurl, or Lambda. As a result, they would not work effectively for our scenario.
 
-### **Key Aspects**
+### Key Aspects of the Solution
+- AWS Signature Version 4 (SigV4) is required for API calls:  
+  Requests to the API must be signed using IAM credentials, preventing unauthorized public access.
+- API Gateway automatically validates `aws:PrincipalOrgID`:  
+  This ensures that the calling IAM entity belongs to an account within our AWS Organization.
+- No hardcoded credentials are required in Lambda:  
+  AWS Lambda automatically retrieves temporary IAM credentials and signs the request.
+- Public unauthenticated requests will be rejected:  
+  Requests that are not signed with IAM credentials will not include `aws:PrincipalOrgID`, leading to automatic rejection.
 
--   **Requires AWS Signature Version 4 (SigV4):** API requests must be IAM-signed to prevent unauthorized public access.
--   **Automatically validates `aws:PrincipalOrgID`:** API Gateway ensures the caller belongs to an AWS Organization account.
--   **No hardcoded credentials in Lambda:** AWS Lambda retrieves temporary IAM credentials and signs requests automatically.
--   **Rejects public, unauthenticated requests:** Requests without IAM signatures lack `aws:PrincipalOrgID` and are denied.
+---
 
 ## 2. API Gateway Resource Policy
 The following API Gateway resource policy allows only IAM-authenticated requests from AWS accounts within our Organization:

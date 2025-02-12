@@ -1,0 +1,72 @@
+@startuml
+' Pastel color theme settings
+skinparam backgroundColor #FDF6E3
+skinparam sequence {
+  ArrowColor DarkSlateGray
+  LifeLineBackgroundColor #EEE8D5
+  LifeLineBorderColor #93a1a1
+  ActorBackgroundColor #EEE8D5
+  ActorBorderColor #93a1a1
+  ParticipantBackgroundColor #EEE8D5
+  ParticipantBorderColor #93a1a1
+  NoteBackgroundColor #FFF8DC
+  NoteBorderColor #93a1a1
+}
+
+actor Client as client
+participant "API Gateway" as apiGateway
+participant "IAM Lookup / AWS Organizations" as iam
+participant "Resource Policy Engine\n(Uses Request Context)" as policy
+participant "Custom Authorizer" as authorizer
+participant "Lambda Function" as lambda
+
+note over apiGateway: API Gateway receives a signed API request
+client -> apiGateway: Signed API Request
+activate apiGateway
+
+note right of apiGateway
+API Gateway verifies the SigV4 signature by extracting:
+- IAM Access Key ID & credentials
+- Session token (if present)
+Then performs an internal IAM lookup.
+end note
+
+apiGateway -> iam: Lookup IAM Principal Details
+activate iam
+iam --> apiGateway: IAM Principal Info\n(includes aws:PrincipalOrgID)
+deactivate iam
+
+note over apiGateway
+API Gateway populates the
+request context with the IAM principal details,
+including the aws:PrincipalOrgID.
+
+<size:10><u>https://docs.aws.amazon.com/IAM/latest/UserGuide/
+<size:10><u>   reference_policies_condition-keys.html#condition-keys-principalorgid</size>
+end note
+
+
+  
+apiGateway -> policy: Evaluate Resource Policy using Request Context
+activate policy
+policy --> apiGateway: Decision (aws:PrincipalOrgID valid / error)
+deactivate policy
+
+alt Valid Signature & Matching aws:PrincipalOrgID in Request Context
+  note over apiGateway: Resource Policy allows the request
+  apiGateway -> authorizer: Invoke Custom Authorizer (with Request Context)
+  activate authorizer
+  note right of authorizer: Custom Authorizer performs additional checks (e.g., JWT validation)
+  authorizer --> apiGateway: Authorization Success
+  deactivate authorizer
+  apiGateway -> lambda: Forward request to Lambda
+  activate lambda
+  lambda --> apiGateway: Lambda Response
+  deactivate lambda
+else Invalid Signature or Missing/Mismatched aws:PrincipalOrgID in Request Context
+  note over apiGateway: Resource Policy rejects the request\n(due to missing or mismatched aws:PrincipalOrgID)
+  apiGateway --> client: 403 Forbidden/Error
+end
+
+deactivate apiGateway
+@enduml
