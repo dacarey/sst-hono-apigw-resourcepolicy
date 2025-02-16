@@ -102,6 +102,7 @@ export default $config({
     });
 
     api.route("GET /", "src/index.handler");
+    api.route("GET /debug", "src/debug.handler");
     api.deploy();
   }
 });
