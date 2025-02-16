@@ -9,14 +9,14 @@
   },
   "devDependencies": {
     "@types/aws-lambda": "8.10.147",
-    "@types/node": "^22.13.1",
+    "@types/node": "^22.13.4",
     "esbuild": "^0.25.0",
     "npm-run-all2": "^6.2.6"
   },
   "dependencies": {
     "@pulumi/aws": "^6.68.0",
-    "hono": "^4.7.0",
-    "sst": "^3.8.5",
-    "@aws-sdk/client-sts": "^3.744.0"
+    "hono": "^4.7.1",
+    "sst": "^3.9.2",
+    "@aws-sdk/client-sts": "^3.749.0"
   }
 }
