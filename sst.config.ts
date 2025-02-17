@@ -14,7 +14,7 @@ interface ResourcePolicy {
     Resource: string;
     Condition: {
       "ForAnyValue:StringEquals": {
-        "aws:SourceAccount": string[];
+        "aws:PrincipalOrgID": string[];
       };
     };
   }>;
@@ -75,7 +75,7 @@ export default $config({
             Resource: "*", // Optionally, scope this to your API ARN.
             Condition: {
               "ForAnyValue:StringEquals": {
-                "aws:SourceAccount": allowedAccounts
+                "aws:PrincipalOrgID": allowedAccounts
               }
             }
           }
