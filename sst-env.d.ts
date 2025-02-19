@@ -8,7 +8,6 @@ declare module "sst" {
     "HonoDebugLambda": {
       "name": string
       "type": "sst.aws.Function"
-      "url": string
     }
     "HonoVanillaLambda": {
       "name": string
