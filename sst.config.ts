@@ -39,7 +39,7 @@ export default $config({
     });
     // New DebugLambda function for troubleshooting
     new sst.aws.Function("HonoDebugLambda", {
-      url: true,
+      url: false,
       handler: "src/debug.handler",
     });
 
