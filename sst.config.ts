@@ -34,7 +34,7 @@ export default $config({
   },
   async run() {
     new sst.aws.Function("HonoVanillaLambda", {
-      url: true,
+      url: false, // No URL for this function AS it upsets the Security Team at Direct Wines.   OK to enable this for testing.
       handler: "src/index.handler",
     });
     // New DebugLambda function for troubleshooting
@@ -102,7 +102,7 @@ export default $config({
     });
 
     api.route("GET /", "src/index.handler");
-    api.route("GET /debug", "src/debug.handler");
+    api.route("GET /debug", "src/debug.handler", { auth: { iam: true } });
     api.deploy();
   }
 });

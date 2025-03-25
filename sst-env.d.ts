@@ -5,19 +5,6 @@
 
 declare module "sst" {
   export interface Resource {
-    "HonoDebugLambda": {
-      "name": string
-      "type": "sst.aws.Function"
-    }
-    "HonoVanillaLambda": {
-      "name": string
-      "type": "sst.aws.Function"
-      "url": string
-    }
-    "MyApi": {
-      "type": "sst.aws.ApiGatewayV1"
-      "url": string
-    }
   }
 }
 /// <reference path="sst-env.d.ts" />
